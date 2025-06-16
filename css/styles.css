@@ -1,0 +1,238 @@
+* {
+  font-family: "Poppins";
+}
+
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #dde5f4;
+  height: 100vh;
+  overflow: auto; /* Pastikan tidak ada elemen yang menghalangi tombol */
+}
+
+.screen-1 {
+  background: #f1f7fe;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  box-shadow: 0 0 2em #e6e9f9;
+  gap: 2em;
+}
+
+.screen-2 {
+  background: #f1f7fe;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  box-shadow: 0 0 2em #e6e9f9;
+  gap: 2em;
+}
+
+.screen-1 .logo {
+  margin-top: -3em;
+}
+
+.screen-1 .email {
+  background: white;
+  box-shadow: 0 0 2em #e6e9f9;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  border-radius: 20px;
+  color: #4d4d4d;
+  margin-top: 3em;
+}
+.screen-1 .email input {
+  outline: none;
+  border: none;
+}
+.screen-1 .email input::-moz-placeholder {
+  color: black;
+  font-size: 0.9em;
+}
+.screen-1 .email input:-ms-input-placeholder {
+  color: black;
+  font-size: 0.9em;
+}
+.screen-1 .email input::placeholder {
+  color: black;
+  font-size: 0.9em;
+}
+.screen-1 .email ion-icon {
+  color: #4d4d4d;
+  margin-bottom: -0.2em;
+}
+.screen-1 .password {
+  background: white;
+  box-shadow: 0 0 2em #e6e9f9;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  border-radius: 20px;
+  color: #4d4d4d;
+}
+.screen-1 .password input {
+  outline: none;
+  border: none;
+}
+.screen-1 .password input::-moz-placeholder {
+  color: black;
+  font-size: 0.9em;
+}
+.screen-1 .password input:-ms-input-placeholder {
+  color: black;
+  font-size: 0.9em;
+}
+.screen-1 .password input::placeholder {
+  color: black;
+  font-size: 0.9em;
+}
+.screen-1 .password ion-icon {
+  color: #4d4d4d;
+  margin-bottom: -0.2em;
+}
+.screen-1 .password .show-hide {
+  margin-right: -5em;
+}
+.screen-1 .login {
+  padding: 1em;
+  background: #3e4684;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+}
+.screen-1 .footer {
+  display: flex;
+  font-size: 0.7em;
+  color: #5e5e5e;
+  gap: 14em;
+  padding-bottom: 10em;
+}
+.screen-1 .footer span {
+  cursor: pointer;
+}
+
+.screen-2 .footer {
+  display: flex;
+  font-size: 0.7em;
+  color: #5e5e5e;
+  gap: 14em;
+  padding-bottom: 2em;
+  padding-top: 2em;
+}
+.screen-2 .footer span {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* membuat tombol*/
+.round-button {
+  position: fixed; /* Posisi tetap di layar */
+  bottom: 20px; /* Jarak dari bawah */
+  right: 20px; /* Jarak dari kanan */
+  width: 60px; /* Lebar tombol */
+  height: 60px; /* Tinggi tombol */
+  background-color: #007bff; /* Warna tombol */
+  color: white; /* Warna teks/ikon */
+  border: none; /* Menghilangkan border */
+  border-radius: 50%; /* Membuat tombol bulat */
+  font-size: 24px; /* Ukuran ikon */
+  display: flex; /* Mengatur konten di tengah */
+  justify-content: center; /* Pusatkan secara horizontal */
+  align-items: center; /* Pusatkan secara vertikal */
+  cursor: pointer; /* Pointer saat hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Bayangan tombol */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Efek hover */
+}
+
+/* Efek hover */
+.round-button:hover {
+  background-color: #0056b3; /* Warna lebih gelap saat hover */
+  transform: scale(1.1); /* Membesarkan tombol sedikit */
+}
+
+/* Fokus efek */
+.round-button:focus {
+  outline: none; /* Menghilangkan outline bawaan */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Highlight fokus */
+}
+
+.second-button {
+  position: fixed; /* Posisi tetap di layar */
+  bottom: 20px; /* Jarak dari bawah */
+  right: 100px; /* Jarak dari kanan */
+  width: 60px; /* Lebar tombol */
+  height: 60px; /* Tinggi tombol */
+  background-color: #007bff; /* Warna tombol */
+  color: white; /* Warna teks/ikon */
+  border: none; /* Menghilangkan border */
+  border-radius: 50%; /* Membuat tombol bulat */
+  font-size: 24px; /* Ukuran ikon */
+  display: flex; /* Mengatur konten di tengah */
+  justify-content: center; /* Pusatkan secara horizontal */
+  align-items: center; /* Pusatkan secara vertikal */
+  cursor: pointer; /* Pointer saat hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Bayangan tombol */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Efek hover */
+}
+
+/* Efek hover */
+.second-button:hover {
+  background-color: #0056b3; /* Warna lebih gelap saat hover */
+  transform: scale(1.1); /* Membesarkan tombol sedikit */
+}
+
+/* Fokus efek */
+.second-button:focus {
+  outline: none; /* Menghilangkan outline bawaan */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Highlight fokus */
+}
+
+/* Container untuk tabel detail*/
+.table-container {
+  max-width: 100%;
+  max-height: 100px; /* Tinggi maksimum tabel */
+  overflow-y: auto; /* Aktifkan scroll vertikal jika konten melebihi batas */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Styling tabel */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 1px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Header tetap (sticky) */
+thead th {
+  position: sticky; /* Membuat header tetap */
+  top: 0; /* Posisi tetap di atas */
+  z-index: 2; /* Memberikan prioritas atas */
+}

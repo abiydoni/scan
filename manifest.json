@@ -1,0 +1,22 @@
+{
+  "name": "Jimpitan Auto",
+  "short_name": "Jimpitan Auto",
+  "description": "Auto scanning Jimpitan",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "assets/image/jimpitan2.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/image/jimpitan1.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
