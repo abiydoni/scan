@@ -24,7 +24,9 @@ $hp_link = preg_replace('/^0/', '62', $hp);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jimpitan</title>
-  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+
   <script src="js/html5-qrcode.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="css/sweetalert2.min.css">
   <script src="js/sweetalert2.all.min.js"></script>
@@ -198,14 +200,15 @@ $hp_link = preg_replace('/^0/', '62', $hp);
 </script>
 
 <script>
-    // Service worker register
-  if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-          navigator.serviceWorker.register('../service-worker.js')
-              .then(registration => console.log('Service Worker registered:', registration.scope))
-              .catch(error => console.error('Service Worker registration failed:', error));
-      });
-  }
+// Service worker register
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+            .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+            .catch(err => console.error('❌ Service Worker registration failed:', err));
+    });
+}
 </script>
+
 </body>
 </html>

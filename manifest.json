@@ -2,7 +2,7 @@
   "name": "Jimpitan Auto",
   "short_name": "Jimpitan Auto",
   "description": "Auto scanning Jimpitan",
-  "start_url": ".",
+  "start_url": "/index.php",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
