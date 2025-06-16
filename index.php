@@ -194,10 +194,6 @@ $hp_link = preg_replace('/^0/', '62', $hp);
         updateData();
     });
 </script>
-<script>
-    const savedColor = localStorage.getItem('overlayColor') || '#000000E6';
-    document.body.style.backgroundColor = savedColor;
-</script>
 
 <script>
 // Service worker register
