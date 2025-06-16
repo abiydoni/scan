@@ -146,9 +146,9 @@ $hp_link = preg_replace('/^0/', '62', $hp);
     </h4> -->
     <a href="api/detail_scan.php"><h4 id="totalScan">Menunggu data...</h4></a>
 
-      <div class="floating-button" style="margin-right : 70px;">
+      <!-- <div class="floating-button" style="margin-right : 70px;">
         <a href="index.php"><i class="bx bx-arrow-back bx-tada bx-flip-horizontal" style="font-size:24px" ></i></a>
-      </div>
+      </div> -->
 
       <div class="floating-button">
         <label for="qr-input-file" id="fileInputLabel" style="color: white;">
