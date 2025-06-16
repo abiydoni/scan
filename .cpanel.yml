@@ -1,4 +1,4 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home2/appsbeem/public_html/scan
+    - export DEPLOYPATH=/home2/appsbeem/public_html/scan.appsbee.my.id
