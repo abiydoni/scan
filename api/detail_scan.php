@@ -32,7 +32,7 @@ $total_nominal = array_sum(array_column($data, 'nominal'));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
@@ -185,9 +185,5 @@ $total_nominal = array_sum(array_column($data, 'nominal'));
         $(document).ready(updateTable);
 
     </script>
-<script>
-    const savedColor = localStorage.getItem('overlayColor') || '#000000E6';
-    document.body.style.backgroundColor = savedColor;
-</script>
 </body>
 </html>
