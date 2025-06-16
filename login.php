@@ -37,9 +37,9 @@ include "cek_login.php"
         </div>
     </div>
 
-    <div class="password">
+    <!-- <div class="password">
     <label><input type="checkbox" name="redirect_option" value="dashboard"> Go To Dashboard</label>
-    </div>
+    </div> -->
 
     <button class="login">Login</button>
     <div class="footer">
