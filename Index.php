@@ -141,14 +141,8 @@ $hp_link = preg_replace('/^0/', '62', $hp);
       });
     </script>
     <p style="color:grey; font-size: 14px; text-align: center;" id="tanggalHariIni"></p>
-    <!-- <h4 id="totalScan">
-      Jumlah Scan: Rp. <?php echo number_format($totalScan, 0, ',', '.'); ?> dan <?php echo $totalData; ?> KK
-    </h4> -->
-    <a href="api/detail_scan.php"><h4 id="totalScan">Menunggu data...</h4></a>
 
-      <!-- <div class="floating-button" style="margin-right : 70px;">
-        <a href="index.php"><i class="bx bx-arrow-back bx-tada bx-flip-horizontal" style="font-size:24px" ></i></a>
-      </div> -->
+    <a href="api/detail_scan.php"><h4 id="totalScan">Menunggu data...</h4></a>
 
       <div class="floating-button">
         <label for="qr-input-file" id="fileInputLabel" style="color: white;">
