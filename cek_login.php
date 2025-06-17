@@ -3,8 +3,6 @@ session_start();
 date_default_timezone_set('Asia/Jakarta');
 require 'helper/connection.php';
 
-$error = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_name = $_POST['user_name'] ?? '';
     $password = $_POST['password'] ?? '';
@@ -13,27 +11,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $pdo = getDatabaseConnection();
 
-        // Cari user berdasarkan user_name
         $stmt = $pdo->prepare('SELECT * FROM users WHERE user_name = ?');
         $stmt->execute([$user_name]);
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            $currentDay = date('l');
             $role = $user['role'];
+            $currentDay = date('l');
             $shiftDays = explode(',', $user['shift']);
 
             if ($role === 'warga') {
-                $error = 'Login gagal! Role warga tidak diizinkan login.';
-            } elseif (
+                header("Location: login.php?error=" . urlencode("Login gagal! Role warga tidak diizinkan login."));
+                exit;
+            }
+
+            if (
                 in_array($role, ['admin', 's_admin']) ||
                 ($role === 'pengurus' && in_array($currentDay, $shiftDays))
             ) {
                 $_SESSION['user'] = $user;
                 $_SESSION['device_id'] = $device_id;
 
-                // Cek apakah device_id sudah ada
-                if ($device_id) {
+                // Simpan device_id jika belum ada
+                if (!empty($device_id)) {
                     $cek = $pdo->prepare("SELECT * FROM devices WHERE device_id = ?");
                     $cek->execute([$device_id]);
 
@@ -43,23 +43,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
-                // Login sukses, arahkan ke dashboard
-                header('Location: index.php');
+                header("Location: index.php");
                 exit;
             } else {
-                $error = 'Login gagal! Hari ini bukan jadwalmu jaga.';
+                header("Location: login.php?error=" . urlencode("Login gagal! Hari ini bukan jadwalmu jaga."));
+                exit;
             }
         } else {
-            $error = 'Username atau password salah!';
+            header("Location: login.php?error=" . urlencode("User/Password salah atau tidak valid."));
+            exit;
         }
     } catch (PDOException $e) {
-        $error = 'Database error: ' . $e->getMessage();
+        header("Location: login.php?error=" . urlencode("Database error: " . $e->getMessage()));
+        exit;
     }
 }
-
-// Jika gagal login, tampilkan kembali form login
-// Pastikan $error ikut terbaca oleh halaman login
-$_SESSION['error'] = $error;
-header('Location: login.php');
-exit;
 ?>
