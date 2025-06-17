@@ -173,7 +173,7 @@ $total_nominal = array_sum(array_column($data, 'nominal'));
                     $('#total-nominal').text(parseInt(data.total_nominal).toLocaleString());
                 },
                 error: function() {
-                    $('#data-table').html("<tr><td colspan='3' style='text-align: center;'>Gagal memuat data.</td></tr>");
+                    $('#data-table').html("<tr><td colspan='5' style='text-align: center;'>Gagal memuat data.</td></tr>");
                 }
             });
         }
