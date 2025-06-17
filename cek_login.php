@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $currentDay = date('l');
             // ✅ warga tidak bisa login kapan saja
-            if (in_array($user['role'], ['pengurus', 'admin', 's_admin']) || in_array($currentDay, explode(',', $user['shift']))) {
+            if (in_array($user['role'], ['pengurus', 'admin', 's_admin', 'warga']) || in_array($currentDay, explode(',', $user['shift']))) {
                 $_SESSION['user'] = $user;
 
                 $role = $user['role'];
@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($redirect_option === 'dashboard') {
                         header('Location: dashboard');
                     } else {
+                        error_log('Device ID dari POST: ' . ($_POST['device_id'] ?? 'KOSONG'));
                         // Cek apakah device_id sudah ada
                         if ($device_id) {
                             $cek = $pdo->prepare("SELECT * FROM devices WHERE device_id = ?");
