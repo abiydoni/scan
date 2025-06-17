@@ -172,7 +172,7 @@ $hp_link = preg_replace('/^0/', '62', $hp);
   </div>
 
   <div class="container">
-  <h2>Selamat datang, <?= htmlspecialchars($_SESSION['user']['user_name']) ?></h2>
+  <h4>Selamat datang, <?= htmlspecialchars($_SESSION['user']['name']) ?></h4>
     <h3 style="color:grey;">Jimpitan RT.07 Randuares</h3>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
