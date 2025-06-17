@@ -122,7 +122,7 @@ $hp_link = preg_replace('/^0/', '62', $hp);
       background-color: #ccc;
       cursor: not-allowed;
   }
-  
+
 .floating-button-logout {
     position: fixed;
     bottom: 20px; /* Jarak dari bawah */
@@ -172,7 +172,7 @@ $hp_link = preg_replace('/^0/', '62', $hp);
 
       <!-- Tombol Logout Floating -->
       <div class="floating-button-logout">
-        <a href="logout.php" title="Keluar">
+        <a href="api/logout.php" title="Keluar">
           <i class="bx bx-log-out"></i>
         </a>
       </div>
