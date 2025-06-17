@@ -263,18 +263,22 @@ if ('serviceWorker' in navigator) {
 
 <?php if ($showShiftAlert): ?>
 <script>
-Swal.fire({
-    title: 'Bukan Jadwalmu',
-    text: 'Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi.',
-    icon: 'error',
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-    showConfirmButton: false,
-    backdrop: true,
-    didOpen: () => {
-        // Sembunyikan semua isi konten utama agar user tidak bisa akses
-        document.querySelector('.container').style.display = 'none';
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    Swal.fire({
+        title: 'Bukan Jadwalmu',
+        text: 'Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi.',
+        icon: 'error',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        backdrop: true,
+        didOpen: () => {
+            const container = document.querySelector('.container');
+            if (container) {
+                container.style.display = 'none';
+            }
+        }
+    });
 });
 </script>
 <?php endif; ?>
