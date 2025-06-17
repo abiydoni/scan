@@ -7,10 +7,16 @@ $showShiftAlert = false;
 
 if (isset($_SESSION['user'])) {
     $role = $_SESSION['user']['role'];
-    echo '<pre>';
-    print_r($_SESSION['user']);
-    echo '</pre>';
-
+    // Ambil data user terbaru dari database berdasarkan id_code
+    if (isset($_SESSION['user']['id_code'])) {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id_code = ?");
+        $stmt->execute([$_SESSION['user']['id_code']]);
+        $freshUser = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($freshUser) {
+            $_SESSION['user'] = $freshUser; // Overwrite session dengan data terbaru
+        }
+    }
+    
     if (in_array($role, ['pengurus', 'user'])) {
         $currentDay = strtolower(date('l'));
         $shiftDays = array_map('strtolower', array_map('trim', explode(',', $_SESSION['user']['shift'])));
