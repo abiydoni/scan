@@ -1,6 +1,7 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Jakarta');
+$device_id = $_POST['device_id'] ?? '';
 
 $error = '';
 include "cek_login.php"
@@ -19,36 +20,66 @@ include "cek_login.php"
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<form action="login.php" method="POST">
-<div class="screen-1">
-    <div class="email">
-        <label for="user_name">User</label>
-        <div class="sec-2">
-            <ion-icon name="person-outline"></ion-icon>
-            <input type="text" name="user_name" placeholder="********" required/>
+<form action="cek_login.php" method="POST">
+    <div class="screen-1">
+        <div class="email">
+            <label for="user_name">User</label>
+            <div class="sec-2">
+                <ion-icon name="person-outline"></ion-icon>
+                <input type="text" name="user_name" placeholder="********" required/>
+            </div>
         </div>
-    </div>
-    
-    <div class="password">
-        <label for="password">Password</label>
-        <div class="sec-2">
-            <ion-icon name="lock-closed-outline"></ion-icon>
-            <input class="pas" type="password" name="password" placeholder="********" required/>
+        
+        <div class="password">
+            <label for="password">Password</label>
+            <div class="sec-2">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input class="pas" type="password" name="password" placeholder="********" required/>
+                <input type="hidden" name="device_id" id="device_id">
+            </div>
         </div>
-    </div>
 
-    <!-- <div class="password">
-    <label><input type="checkbox" name="redirect_option" value="dashboard"> Go To Dashboard</label>
-    </div> -->
+        <!-- <div class="password">
+        <label><input type="checkbox" name="redirect_option" value="dashboard"> Go To Dashboard</label>
+        </div> -->
 
-    <button class="login">Login</button>
-    <div class="footer">
-        <?php if ($error): ?>
-            <div class="error-message" style="color: red; font-size: 12px;"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
+        <button type="submit" class="login">Login</button>
+        
+        <div class="footer">
+            <?php if ($error): ?>
+                <div class="error-message" style="color: red; font-size: 12px;"><?php echo htmlspecialchars($error); ?></div>
+            <?php endif; ?>
+        </div>
+        <p style="color:grey; font-size: 8px; text-align: center;">@2024 copyright | by doniabiy</p>
     </div>
-    <p style="color:grey; font-size: 8px; text-align: center;">@2024 copyright | by doniabiy</p>
-</div>
 </form>
+  <script>
+    function generateUUID() {
+      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+    }
+
+    let deviceID = localStorage.getItem("device_id");
+    if (!deviceID) {
+      deviceID = generateUUID();
+      localStorage.setItem("device_id", deviceID);
+    }
+
+    document.getElementById("device_id").value = deviceID;
+
+    // Coba auto-login
+    fetch("auto_login.php", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: "device_id=" + encodeURIComponent(deviceID)
+    })
+    .then(res => res.text())
+    .then(res => {
+      if (res === "login_ok") {
+        window.location.href = "index.php";
+      }
+    });
+  </script>
 </body>
 </html>

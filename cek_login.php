@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_name = $_POST['user_name'] ?? '';
     $password = $_POST['password'] ?? '';
     $redirect_option = $_POST['redirect_option'] ?? 'scan_app';
+    $device_id = $_POST['device_id'] ?? '';
 
     try {
         $pdo = getDatabaseConnection();
@@ -54,6 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($redirect_option === 'dashboard') {
                         header('Location: dashboard');
                     } else {
+                        // Cek apakah device_id sudah ada
+                        if ($device_id) {
+                            $cek = $pdo->prepare("SELECT * FROM devices WHERE device_id = ?");
+                            $cek->execute([$device_id]);
+
+                            if (!$cek->fetch()) {
+                                $save = $pdo->prepare("INSERT INTO devices (user_id, device_id) VALUES (?, ?)");
+                                $save->execute([$user['id'], $device_id]);
+                            }
+                        }
                         header('Location: index.php');
                     }
                     exit;
