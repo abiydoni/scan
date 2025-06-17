@@ -1,13 +1,20 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Jakarta');
-
-// Check if user is logged in
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php'); // Redirect to login page
-    exit;
-}
 require_once 'api/db.php';
+
+$showShiftAlert = false;
+
+if (isset($_SESSION['user'])) {
+    $role = $_SESSION['user']['role'];
+    if (in_array($role, ['pengurus', 'user'])) {
+        $currentDay = strtolower(date('l'));
+        $shiftDays = array_map('strtolower', array_map('trim', explode(',', $_SESSION['user']['shift'])));
+        if (!in_array($currentDay, $shiftDays)) {
+            $showShiftAlert = true;
+        }
+    }
+}
 
 // Validasi device_id di database
 $device_id = $_SESSION['device_id'] ?? null;
@@ -253,6 +260,24 @@ if ('serviceWorker' in navigator) {
     });
 }
 </script>
+
+<?php if ($showShiftAlert): ?>
+<script>
+Swal.fire({
+    title: 'Bukan Jadwalmu',
+    text: 'Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi.',
+    icon: 'error',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    backdrop: true,
+    didOpen: () => {
+        // Sembunyikan semua isi konten utama agar user tidak bisa akses
+        document.querySelector('.container').style.display = 'none';
+    }
+});
+</script>
+<?php endif; ?>
 
 </body>
 </html>
