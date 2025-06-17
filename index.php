@@ -16,7 +16,7 @@ if (isset($_SESSION['user'])) {
             $_SESSION['user'] = $freshUser; // Overwrite session dengan data terbaru
         }
     }
-    
+
     if (in_array($role, ['pengurus', 'user'])) {
         $currentDay = strtolower(date('l'));
         $shiftDays = array_map('strtolower', array_map('trim', explode(',', $_SESSION['user']['shift'])));
@@ -274,9 +274,25 @@ if ('serviceWorker' in navigator) {
 <?php if ($showShiftAlert): ?>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // Konversi hari shift ke Bahasa Indonesia
+    const hariShiftInggris = "<?= strtolower($_SESSION['user']['shift'] ?? '') ?>";
+    const namaUser = "<?= htmlspecialchars($_SESSION['user']['name']) ?>";
+
+    const hariIndonesiaMap = {
+        monday: 'Senin',
+        tuesday: 'Selasa',
+        wednesday: 'Rabu',
+        thursday: 'Kamis',
+        friday: 'Jumat',
+        saturday: 'Sabtu',
+        sunday: 'Minggu'
+    };
+
+    const hariIndonesia = hariIndonesiaMap[hariShiftInggris] ?? 'Tidak diketahui';
+
     Swal.fire({
-        title: 'Bukan Jadwalmu',
-        text: 'Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi.',
+        title: namaUser,
+        text: `Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi. Jadwal jaga Anda adalah hari ${hariIndonesia}.`,
         icon: 'error',
         allowOutsideClick: false,
         allowEscapeKey: false,
