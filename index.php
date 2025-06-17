@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hariIndonesia = hariIndonesiaMap[hariShiftInggris] ?? 'Tidak diketahui';
 
     Swal.fire({
-        title: namaUser,
+        title: `Hallo, ${namaUser}`,
         text: `Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi. Jadwal jaga kamu adalah hari: ${hariIndonesia}.`,
         icon: 'info',
         allowOutsideClick: false,
