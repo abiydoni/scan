@@ -186,12 +186,12 @@ $hp_link = preg_replace('/^0/', '62', $hp);
 
     <a href="api/detail_scan.php"><h4 id="totalScan">Menunggu data...</h4></a>
 
-      <!-- Tombol Logout Floating -->
+      <!-- Tombol Logout Floating
       <div class="floating-button-logout">
         <a href="api/logout.php" title="Keluar">
           <i class="bx bx-log-out"></i>
         </a>
-      </div>
+      </div> -->
 
       <div class="floating-button">
         <label for="qr-input-file" id="fileInputLabel" style="color: white;">
