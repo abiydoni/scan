@@ -63,14 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             if (!$cek->fetch()) {
                                 $save = $pdo->prepare("INSERT INTO devices (user_id, device_id) VALUES (?, ?)");
                                 $save->execute([$user['id_code'], $device_id]);
-                                
-                                echo "Data berhasil disimpan ke tabel devices:<br>";
-                                echo "User ID: " . htmlspecialchars($user['id_code']) . "<br>";
-                                echo "Device ID: " . htmlspecialchars($device_id);
-                                exit;
-                            } else {
-                                echo "Device sudah ada, tidak disimpan ulang.";
-                                exit;
                             }
                         }
                         header('Location: index.php');
