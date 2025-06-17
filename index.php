@@ -1,9 +1,6 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Jakarta');
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
 
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
