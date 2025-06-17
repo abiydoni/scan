@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($redirect_option === 'dashboard') {
                         header('Location: dashboard');
                     } else {
+                        error_log('Device ID dari POST: ' . ($_POST['device_id'] ?? 'KOSONG'));
                         // Cek apakah device_id sudah ada
                         if ($device_id) {
                             $cek = $pdo->prepare("SELECT * FROM devices WHERE device_id = ?");

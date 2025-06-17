@@ -52,7 +52,8 @@ $error = '';
         <p style="color:grey; font-size: 8px; text-align: center;">@2024 copyright | by doniabiy</p>
     </div>
 </form>
-  <script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
     function generateUUID() {
       return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -65,7 +66,10 @@ $error = '';
       localStorage.setItem("device_id", deviceID);
     }
 
-    document.getElementById("device_id").value = deviceID;
+    const inputDeviceId = document.getElementById("device_id");
+    if (inputDeviceId) {
+      inputDeviceId.value = deviceID;
+    }
 
     // Coba auto-login
     fetch("auto_login.php", {
@@ -79,6 +83,7 @@ $error = '';
         window.location.href = "index.php";
       }
     });
-  </script>
+  });
+</script>
 </body>
 </html>
