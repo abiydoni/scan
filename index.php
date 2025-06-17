@@ -292,8 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Swal.fire({
         title: namaUser,
-        text: `Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi. Jadwal jaga Anda adalah hari ${hariIndonesia}.`,
-        icon: 'error',
+        text: `Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi. Jadwal jaga kamu adalah hari: ${hariIndonesia}.`,
+        icon: 'info',
         allowOutsideClick: false,
         allowEscapeKey: false,
         showConfirmButton: false,
