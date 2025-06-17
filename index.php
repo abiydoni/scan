@@ -8,6 +8,25 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 require_once 'api/db.php';
+
+// Validasi device_id di database
+$device_id = $_SESSION['device_id'] ?? null;
+$user_id = $_SESSION['user']['id_code'] ?? null;
+
+if ($device_id && $user_id) {
+    $stmt = $pdo->prepare("SELECT * FROM devices WHERE device_id = ? AND user_id = ?");
+    $stmt->execute([$device_id, $user_id]);
+    $deviceValid = $stmt->fetch();
+
+    if (!$deviceValid) {
+        // Device tidak valid lagi, hapus session dan redirect ke login
+        session_unset();
+        session_destroy();
+        header('Location: login.php');
+        exit;
+    }
+}
+
 $stmt = $pdo->query("SELECT cp, hp FROM tb_profil LIMIT 1");
 $profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
