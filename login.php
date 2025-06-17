@@ -1,10 +1,9 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Jakarta');
-$device_id = $_POST['device_id'] ?? '';
 
 $error = '';
-include "cek_login.php"
+// include "cek_login.php"
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +43,7 @@ include "cek_login.php"
         </div> -->
 
         <button type="submit" class="login">Login</button>
-        
+
         <div class="footer">
             <?php if ($error): ?>
                 <div class="error-message" style="color: red; font-size: 12px;"><?php echo htmlspecialchars($error); ?></div>

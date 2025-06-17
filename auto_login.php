@@ -11,7 +11,7 @@ if (!$device_id) {
 try {
     $pdo = getDatabaseConnection();
     $stmt = $pdo->prepare("SELECT users.* FROM users
-                           JOIN devices ON users.id = devices.user_id
+                           JOIN devices ON users.id_code = devices.user_id
                            WHERE devices.device_id = ?");
     $stmt->execute([$device_id]);
     $user = $stmt->fetch();
