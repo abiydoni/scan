@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $save->execute([$user['id_code'], $device_id]);
                             }
                         }
+                        $_SESSION['device_id'] = $device_id;
                         header('Location: index.php');
                     }
                     exit;
