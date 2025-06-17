@@ -71,7 +71,6 @@ $error = '';
       inputDeviceId.value = deviceID;
     }
 
-    // Coba auto-login
     fetch("auto_login.php", {
       method: "POST",
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -81,6 +80,23 @@ $error = '';
     .then(res => {
       if (res === "login_ok") {
         window.location.href = "index.php";
+      } else {
+        // Tampilkan error ke dalam elemen footer yang sudah ada
+        const footer = document.querySelector(".footer");
+        const existingError = document.querySelector(".error-message");
+        if (existingError) {
+          existingError.textContent = res;
+        } else {
+          const errorEl = document.createElement("div");
+          errorEl.className = "error-message";
+          errorEl.style.color = "red";
+          errorEl.style.fontSize = "12px";
+          errorEl.textContent = res;
+          footer.prepend(errorEl);
+        }
+
+        // Hapus device_id jika login otomatis gagal
+        localStorage.removeItem("device_id");
       }
     });
   });

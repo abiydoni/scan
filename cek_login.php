@@ -1,7 +1,6 @@
 <?php
-session_start(); 
+session_start();
 date_default_timezone_set('Asia/Jakarta');
-
 require 'helper/connection.php';
 
 $error = '';
@@ -13,24 +12,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $pdo = getDatabaseConnection();
+
+        // Cari user berdasarkan user_name
         $stmt = $pdo->prepare('SELECT * FROM users WHERE user_name = ?');
         $stmt->execute([$user_name]);
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
             $currentDay = date('l');
+            $role = $user['role'];
+            $shiftDays = explode(',', $user['shift']);
 
-            // Jika role warga atau jadwal shift cocok
-            if ($user['role'] === 'warga') {
+            if ($role === 'warga') {
                 $error = 'Login gagal! Role warga tidak diizinkan login.';
             } elseif (
-                in_array($user['role'], ['pengurus', 'admin', 's_admin']) || 
-                in_array($currentDay, explode(',', $user['shift']))
+                in_array($role, ['admin', 's_admin']) ||
+                ($role === 'pengurus' && in_array($currentDay, $shiftDays))
             ) {
                 $_SESSION['user'] = $user;
                 $_SESSION['device_id'] = $device_id;
 
-                // Simpan device_id ke database jika belum ada
+                // Cek apakah device_id sudah ada
                 if ($device_id) {
                     $cek = $pdo->prepare("SELECT * FROM devices WHERE device_id = ?");
                     $cek->execute([$device_id]);
@@ -41,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
+                // Login sukses, arahkan ke dashboard
                 header('Location: index.php');
                 exit;
             } else {
@@ -53,4 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Database error: ' . $e->getMessage();
     }
 }
+
+// Jika gagal login, tampilkan kembali form login
+// Pastikan $error ikut terbaca oleh halaman login
+include 'login.php';
+exit;
 ?>
