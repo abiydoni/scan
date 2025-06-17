@@ -122,6 +122,27 @@ $hp_link = preg_replace('/^0/', '62', $hp);
       background-color: #ccc;
       cursor: not-allowed;
   }
+  
+.floating-button-logout {
+    position: fixed;
+    bottom: 20px; /* Jarak dari bawah */
+    left: 20px; /* Jarak dari kiri */
+    background-color: #F95454; /* Warna merah */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.floating-button-logout a {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
 
   </style>
 </head>
@@ -133,7 +154,9 @@ $hp_link = preg_replace('/^0/', '62', $hp);
 
   <div class="container">
   <h2>Selamat datang, <?= htmlspecialchars($_SESSION['user']['user_name']) ?></h2>
-  <h5>Device ID anda: <?= htmlspecialchars($_SESSION['device_id']) ?></h5>
+    <?php if (isset($_SESSION['device_id'])): ?>
+      <h5>Device ID anda: <?= htmlspecialchars($_SESSION['device_id']) ?></h5>
+    <?php endif; ?>
     <h3 style="color:grey;">Jimpitan RT.07 Randuares</h3>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -146,6 +169,13 @@ $hp_link = preg_replace('/^0/', '62', $hp);
     <p style="color:grey; font-size: 14px; text-align: center;" id="tanggalHariIni"></p>
 
     <a href="api/detail_scan.php"><h4 id="totalScan">Menunggu data...</h4></a>
+
+      <!-- Tombol Logout Floating -->
+      <div class="floating-button-logout">
+        <a href="logout.php" title="Keluar">
+          <i class="bx bx-log-out"></i>
+        </a>
+      </div>
 
       <div class="floating-button">
         <label for="qr-input-file" id="fileInputLabel" style="color: white;">
