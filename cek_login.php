@@ -21,8 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $currentDay = date('l');
 
             // Jika role warga atau jadwal shift cocok
-            if (
-                $user['role'] === 'warga' || 
+            if ($user['role'] === 'warga') {
+                $error = 'Login gagal! Role warga tidak diizinkan login.';
+            } elseif (
                 in_array($user['role'], ['pengurus', 'admin', 's_admin']) || 
                 in_array($currentDay, explode(',', $user['shift']))
             ) {
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $save->execute([$user['id_code'], $device_id]);
                     }
                 }
+
                 header('Location: index.php');
                 exit;
             } else {
