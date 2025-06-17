@@ -7,6 +7,10 @@ $showShiftAlert = false;
 
 if (isset($_SESSION['user'])) {
     $role = $_SESSION['user']['role'];
+    echo '<pre>';
+    print_r($_SESSION['user']);
+    echo '</pre>';
+
     if (in_array($role, ['pengurus', 'user'])) {
         $currentDay = strtolower(date('l'));
         $shiftDays = array_map('strtolower', array_map('trim', explode(',', $_SESSION['user']['shift'])));
