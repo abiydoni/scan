@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Jika gagal login, tampilkan kembali form login
 // Pastikan $error ikut terbaca oleh halaman login
-include 'login.php';
+$_SESSION['error'] = $error;
+header('Location: login.php');
 exit;
 ?>

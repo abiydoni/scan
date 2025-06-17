@@ -3,7 +3,10 @@ session_start();
 date_default_timezone_set('Asia/Jakarta');
 
 $error = '';
-// include "cek_login.php"
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']); // Supaya tidak muncul terus
+}
 ?>
 
 <!DOCTYPE html>
