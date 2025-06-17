@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('SELECT * FROM users WHERE user_name = ?');
         $stmt->execute([$user_name]);
         $user = $stmt->fetch();
+        echo '<pre>'; print_r($user); echo '</pre>'; exit;
 
         if ($user && password_verify($password, $user['password'])) {
             $currentDay = date('l');
