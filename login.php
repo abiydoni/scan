@@ -3,10 +3,6 @@ session_start();
 date_default_timezone_set('Asia/Jakarta');
 
 $error = '';
-if (isset($_SESSION['error'])) {
-    $error = $_SESSION['error'];
-    unset($_SESSION['error']); // Supaya tidak muncul terus
-}
 ?>
 
 <!DOCTYPE html>
