@@ -154,7 +154,6 @@ $hp_link = preg_replace('/^0/', '62', $hp);
 
   <div class="container">
   <h2>Selamat datang, <?= htmlspecialchars($_SESSION['user']['user_name']) ?></h2>
-      <h5>Device ID anda: <?= htmlspecialchars($_SESSION['device_id']) ?></h5>
     <h3 style="color:grey;">Jimpitan RT.07 Randuares</h3>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -183,7 +182,8 @@ $hp_link = preg_replace('/^0/', '62', $hp);
       </div>
 
     <div id="qr-reader"></div> <!-- QR camera dimulai -->
-
+      
+    <p style="color:grey; font-size: 10px; text-align: center;">Device ID Anda: <?= htmlspecialchars($_SESSION['device_id']) ?></p>
     <p style="color:grey; font-size: 10px; text-align: center;">Apabila ada kendala, hubungi: <?= htmlspecialchars($cp) ?></p>
     <p style="color:grey; font-size: 10px; text-align: center;">Ke no HP : <a href="https://wa.me/<?= htmlspecialchars($hp_link) ?>" target="_blank"><?= htmlspecialchars($hp) ?></a></p>
   </div>
