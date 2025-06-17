@@ -6,7 +6,7 @@ date_default_timezone_set('Asia/Jakarta');
 $device_id = $_POST['device_id'] ?? '';
 
 if (!$device_id) {
-    echo 'Device ID tidak ditemukan.';
+    header("Location: login.php?error=" . urlencode("Device ID tidak ditemukan."));
     exit;
 }
 
@@ -23,7 +23,7 @@ try {
     $user = $stmt->fetch();
 
     if (!$user) {
-        echo 'Login gagal! Perangkat tidak dikenali.';
+        header("Location: login.php?error=" . urlencode("Login gagal! Perangkat tidak dikenali."));
         exit;
     }
 
@@ -32,14 +32,14 @@ try {
     $currentDay = date('l');
 
     if ($role === 'warga') {
-        echo 'Login gagal! Role warga tidak diizinkan login otomatis.';
+        header("Location: login.php?error=" . urlencode("Login gagal! Role warga tidak diizinkan login otomatis."));
         exit;
     }
 
     if (in_array($role, ['pengurus', 'user'])) {
         $shiftDays = explode(',', $shift);
         if (!in_array($currentDay, $shiftDays)) {
-            echo 'Login gagal! Hari ini bukan jadwalmu jaga.';
+            header("Location: login.php?error=" . urlencode("Login gagal! Hari ini bukan jadwalmu jaga."));
             exit;
         }
     }
@@ -52,6 +52,6 @@ try {
     exit;
 
 } catch (PDOException $e) {
-    echo 'Database error: ' . $e->getMessage();
+    header("Location: login.php?error=" . urlencode("Database error: " . $e->getMessage()));
     exit;
 }
