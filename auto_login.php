@@ -13,7 +13,7 @@ date_default_timezone_set('Asia/Jakarta');
 $device_id = $_POST['device_id'] ?? '';
 
 if (!$device_id) {
-    echo "Device ID tidak ditemukan.";
+    header("Location: login.php?error=" . urlencode("Device ID tidak ditemukan."));
     exit;
 }
 
@@ -30,35 +30,35 @@ try {
     $user = $stmt->fetch();
 
     if (!$user) {
-        echo "Login gagal! Perangkat tidak dikenali.";
+        header("Location: login.php?error=" . urlencode("Login gagal! Perangkat tidak dikenali."));
         exit;
     }
 
     $role = $user['role'];
-    $currentDay = strtolower(date('l')); // hasil: 'monday', 'tuesday', dst
-    $shiftDays = array_map('strtolower', array_map('trim', explode(',', $user['shift'])));
+    $shift = $user['shift'];
+    $currentDay = date('l');
 
     if ($role === 'warga') {
-        echo "Login gagal! Role warga tidak diizinkan login otomatis.";
+        header("Location: login.php?error=" . urlencode("Login gagal! Role warga tidak diizinkan login otomatis."));
         exit;
     }
 
-    if (
-        in_array($role, ['admin', 's_admin']) ||
-        (in_array($role, ['pengurus', 'user']) && in_array($currentDay, $shiftDays))
-    ) {
-        // Login berhasil → simpan session
-        $_SESSION['user'] = $user;
-        $_SESSION['device_id'] = $device_id;
-
-        echo 'login_ok';
-        exit;
-    } else {
-        echo "Login gagal! Hari ini bukan jadwalmu jaga.";
-        exit;
+    if (in_array($role, ['pengurus', 'user'])) {
+        $shiftDays = explode(',', $shift);
+        if (!in_array($currentDay, $shiftDays)) {
+            header("Location: login.php?error=" . urlencode("Login gagal! Hari ini bukan jadwalmu jaga."));
+            exit;
+        }
     }
+
+    // Login berhasil → simpan session
+    $_SESSION['user'] = $user;
+    $_SESSION['device_id'] = $device_id;
+
+    echo 'login_ok';
+    exit;
 
 } catch (PDOException $e) {
-    echo "Database error: " . $e->getMessage();
+    header("Location: login.php?error=" . urlencode("Database error: " . $e->getMessage()));
     exit;
 }
