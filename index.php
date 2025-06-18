@@ -4,7 +4,6 @@ date_default_timezone_set('Asia/Jakarta');
 require_once 'helper/connection.php';
 
 $pdo = getDatabaseConnection();
-$showShiftAlert = false;
 
 if (isset($_SESSION['user'])) {
     $role = $_SESSION['user']['role'];
@@ -15,14 +14,6 @@ if (isset($_SESSION['user'])) {
         $freshUser = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($freshUser) {
             $_SESSION['user'] = $freshUser; // Overwrite session dengan data terbaru
-        }
-    }
-
-    if (in_array($role, ['pengurus', 'user'])) {
-        $currentDay = strtolower(date('l'));
-        $shiftDays = array_map('strtolower', array_map('trim', explode(',', $_SESSION['user']['shift'])));
-        if (!in_array($currentDay, $shiftDays)) {
-            $showShiftAlert = true;
         }
     }
 }
@@ -260,12 +251,54 @@ $hp_link = preg_replace('/^0/', '62', $hp);
         });
     }
 
-    // Update data setiap 1 detik (1000ms)
+    // Fungsi untuk cek shift secara real-time
+    function checkShiftStatus() {
+        $.ajax({
+            url: 'api/check_shift.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log('Shift check result:', data);
+                
+                if (data.error) {
+                    console.log('Error: ' + data.error);
+                    return;
+                }
+                
+                // Jika bukan hari shift, tampilkan alert
+                if (!data.is_shift_day) {
+                    const namaUser = "<?= htmlspecialchars($_SESSION['user']['name']) ?>";
+                    
+                    Swal.fire({
+                        title: `Hallo, ${namaUser}`,
+                        text: data.message,
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        backdrop: true,
+                        didOpen: () => {
+                            const container = document.querySelector('.container');
+                            if (container) {
+                                container.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Gagal cek shift: ' + status + ' - ' + error);
+            }
+        });
+    }
+
+    // Update data setiap 3 detik
     setInterval(updateData, 3000);
 
-    // Panggil updateData() sekali saat halaman dimuat
+    // Panggil updateData() dan checkShiftStatus() sekali saat halaman dimuat
     $(document).ready(function() {
         updateData();
+        checkShiftStatus(); // Cek shift otomatis saat halaman dibuka
     });
 </script>
 
@@ -279,44 +312,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 </script>
-
-<?php if ($showShiftAlert): ?>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Konversi hari shift ke Bahasa Indonesia
-    const hariShiftInggris = "<?= strtolower($_SESSION['user']['shift'] ?? '') ?>";
-    const namaUser = "<?= htmlspecialchars($_SESSION['user']['name']) ?>";
-
-    const hariIndonesiaMap = {
-        monday: 'Senin',
-        tuesday: 'Selasa',
-        wednesday: 'Rabu',
-        thursday: 'Kamis',
-        friday: 'Jumat',
-        saturday: 'Sabtu',
-        sunday: 'Minggu'
-    };
-
-    const hariIndonesia = hariIndonesiaMap[hariShiftInggris] ?? 'Tidak diketahui';
-
-    Swal.fire({
-        title: `Hallo, ${namaUser}`,
-        text: `Hari ini kamu tidak dijadwalkan untuk jaga. Akses dibatasi. Jadwal jaga kamu adalah hari: ${hariIndonesia}.`,
-        icon: 'info',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        showConfirmButton: false,
-        backdrop: true,
-        didOpen: () => {
-            const container = document.querySelector('.container');
-            if (container) {
-                container.style.display = 'none';
-            }
-        }
-    });
-});
-</script>
-<?php endif; ?>
 
 </body>
 </html>

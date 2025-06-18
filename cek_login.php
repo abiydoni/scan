@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $role = $user['role'];
             $currentDay = strtolower(date('l')); // hasil: 'monday', 'tuesday', dst
-            $shiftDays = array_map('strtolower', array_map('trim', explode(',', $user['shift'])));
+            $userShift = strtolower(trim($user['shift'])); // hasil: 'monday', 'tuesday', dst
 
             if ($role === 'warga') {
                 header("Location: login.php?error=" . urlencode("Login gagal! Role warga tidak diizinkan login."));
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (
                 in_array($role, ['admin', 's_admin']) ||
-                (in_array($role, ['pengurus', 'user']) && in_array($currentDay, $shiftDays))
+                (in_array($role, ['pengurus', 'user']) && $currentDay === $userShift)
             ) {
                 $_SESSION['user'] = $user;
                 $_SESSION['device_id'] = $device_id;

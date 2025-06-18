@@ -36,7 +36,8 @@ try {
 
     $role = $user['role'];
     $shift = $user['shift'];
-    $currentDay = date('l');
+    $currentDay = strtolower(date('l')); // hasil: 'monday', 'tuesday', dst
+    $userShift = strtolower(trim($shift)); // hasil: 'monday', 'tuesday', dst
 
     if ($role === 'warga') {
         echo "Login gagal! Role warga tidak diizinkan login otomatis.";
@@ -54,8 +55,7 @@ try {
 
     // Untuk pengurus dan user, cek shift
     if (in_array($role, ['pengurus', 'user'])) {
-        $shiftDays = explode(',', $shift);
-        if (!in_array($currentDay, $shiftDays)) {
+        if ($currentDay !== $userShift) {
             echo "Login gagal! Hari ini bukan jadwalmu jaga.";
             exit;
         }
