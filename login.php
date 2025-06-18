@@ -11,6 +11,12 @@ date_default_timezone_set('Asia/Jakarta');
 
 // Tangkap error dari URL jika ada (misalnya setelah redirect dari cek_login.php)
 $error = $_GET['error'] ?? '';
+
+// Jika sudah login, redirect ke index
+if (isset($_SESSION['user'])) {
+    header("Location: index.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -25,20 +31,20 @@ $error = $_GET['error'] ?? '';
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <form action="cek_login.php" method="POST">
+  <form action="cek_login.php" method="POST" id="loginForm">
     <div class="screen-1">
       <div class="email">
         <label for="user_name">User</label>
         <div class="sec-2">
           <ion-icon name="person-outline"></ion-icon>
-          <input type="text" name="user_name" placeholder="********" required/>
+          <input type="text" name="user_name" id="user_name" placeholder="********" required/>
         </div>
       </div>
       <div class="password">
         <label for="password">Password</label>
         <div class="sec-2">
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <input class="pas" type="password" name="password" placeholder="********" required/>
+          <input class="pas" type="password" name="password" id="password" placeholder="********" required/>
           <input type="hidden" name="device_id" id="device_id">
         </div>
       </div>
@@ -73,6 +79,10 @@ $error = $_GET['error'] ?? '';
 
       document.getElementById("device_id").value = deviceID;
 
+      // Tambahkan loading state
+      const loginBtn = document.querySelector(".login");
+      const originalText = loginBtn.textContent;
+
       fetch("auto_login.php", {
         method: "POST",
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -99,6 +109,32 @@ $error = $_GET['error'] ?? '';
 
           localStorage.removeItem("device_id");
         }
+      })
+      .catch(error => {
+        console.error('Auto-login error:', error);
+        const footer = document.querySelector(".footer");
+        const errorEl = document.createElement("div");
+        errorEl.className = "error-message";
+        errorEl.style.color = "red";
+        errorEl.style.fontSize = "12px";
+        errorEl.textContent = "Terjadi kesalahan saat auto-login. Silakan login manual.";
+        footer.prepend(errorEl);
+      });
+
+      // Validasi form sebelum submit
+      document.getElementById("loginForm").addEventListener("submit", function(e) {
+        const userName = document.getElementById("user_name").value.trim();
+        const password = document.getElementById("password").value.trim();
+        
+        if (!userName || !password) {
+          e.preventDefault();
+          alert("Username dan password harus diisi!");
+          return false;
+        }
+        
+        // Tampilkan loading
+        loginBtn.textContent = "Loading...";
+        loginBtn.disabled = true;
       });
     });
   </script>
