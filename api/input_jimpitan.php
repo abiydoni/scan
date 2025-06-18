@@ -1,7 +1,4 @@
 <?php
-// Perpanjang session hingga 1 tahun
-ini_set('session.gc_maxlifetime', 31536000); // 1 tahun (dalam detik)
-session_set_cookie_params(31536000);         // Cookie PHPSESSID juga bertahan 1 tahun
 session_start();
 date_default_timezone_set('Asia/Jakarta');
 

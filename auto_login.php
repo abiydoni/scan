@@ -1,7 +1,11 @@
 <?php
-// Perpanjang session hingga 1 tahun
-ini_set('session.gc_maxlifetime', 31536000); // 1 tahun (dalam detik)
-session_set_cookie_params(31536000);         // Cookie PHPSESSID juga bertahan 1 tahun
+// Biar session bertahan 1 tahun (365 hari)
+ini_set('session.gc_maxlifetime', 31536000);      // 1 tahun di server (file session tidak dihapus cepat)
+ini_set('session.cookie_lifetime', 31536000);     // 1 tahun di browser
+ini_set('session.gc_probability', 1);             // Session akan dibersihkan...
+ini_set('session.gc_divisor', 100);               // ...1 dari 100 request (default, bagus)
+
+session_set_cookie_params(31536000);              // Cookie disimpan di browser selama 1 tahun
 session_start();
 require 'api/db.php';
 date_default_timezone_set('Asia/Jakarta');
