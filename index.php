@@ -33,6 +33,14 @@ if (isset($_SESSION['user'])) {
 $device_id = $_SESSION['device_id'] ?? null;
 $user_id = $_SESSION['user']['id_code'] ?? null;
 
+if (!$device_id || !$user_id) {
+    // Tidak ada device_id atau user_id, redirect ke login
+    session_unset();
+    session_destroy();
+    header('Location: login.php');
+    exit;
+}
+
 if ($device_id && $user_id) {
     $stmt = $pdo->prepare("SELECT * FROM devices WHERE device_id = ? AND user_id = ?");
     $stmt->execute([$device_id, $user_id]);

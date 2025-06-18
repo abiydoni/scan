@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $cek->execute([$device_id]);
 
                     if (!$cek->fetch()) {
-                        $save = $pdo->prepare("INSERT INTO devices (user_id, device_id) VALUES (?, ?)");
-                        $save->execute([$user['id_code'], $device_id]);
+                        $save = $pdo->prepare("INSERT INTO devices (user_id, name, device_id) VALUES (?, ?, ?)");
+                        $save->execute([$user['id_code'], $user['name'], $device_id]);
                     }
                 }
 
