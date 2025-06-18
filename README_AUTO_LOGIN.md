@@ -35,7 +35,7 @@ Sistem ini memungkinkan user login sekali dan kemudian akan otomatis login selam
 
 ### Database:
 
-- `helper/connection.php` - Koneksi database untuk semua file
+- `helper/connection.php` - Koneksi database untuk semua file (login, auto-login, index, dan semua API)
 
 ## 🔐 **Keamanan**
 

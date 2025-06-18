@@ -8,22 +8,28 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-include 'db.php';
+require '../helper/connection.php';
 
-// SQL statement untuk mengambil data hari ini
-$stmt = $pdo->prepare("
-    SELECT master_kk.kk_name, report.* 
-    FROM report 
-    JOIN master_kk ON report.report_id = master_kk.code_id
-    WHERE report.jimpitan_date = CURDATE()
-    ORDER BY report.scan_time DESC
-");
-$stmt->execute();
-$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $pdo = getDatabaseConnection();
+    
+    // SQL statement untuk mengambil data hari ini
+    $stmt = $pdo->prepare("
+        SELECT master_kk.kk_name, report.* 
+        FROM report 
+        JOIN master_kk ON report.report_id = master_kk.code_id
+        WHERE report.jimpitan_date = CURDATE()
+        ORDER BY report.scan_time DESC
+    ");
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Hitung total scan
-$total_scans = count($data);
-$total_nominal = array_sum(array_column($data, 'nominal'));
+    // Hitung total scan
+    $total_scans = count($data);
+    $total_nominal = array_sum(array_column($data, 'nominal'));
+} catch(PDOException $e) {
+    die('Database error: ' . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>

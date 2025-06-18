@@ -1,8 +1,10 @@
 <?php
-include 'db.php';
+require '../helper/connection.php';
 date_default_timezone_set('Asia/Jakarta');
 
 try {
+    $pdo = getDatabaseConnection();
+    
     // Query untuk total Scan
     $sqlScan = "SELECT COALESCE(SUM(nominal), 0) AS total_scan FROM report WHERE jimpitan_date = CURDATE()";
     $stmtScan = $pdo->query($sqlScan);

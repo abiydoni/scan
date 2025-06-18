@@ -1,6 +1,6 @@
 <?php
 // Koneksi database
-include 'db.php';
+require '../helper/connection.php';
 
 // Inisialisasi respon
 $response = [
@@ -10,6 +10,8 @@ $response = [
 ];
 
 try {
+    $pdo = getDatabaseConnection();
+    
     // Query untuk mengambil tarif dengan kode_tarif = 'JIMPIT'
     $stmt = $pdo->prepare("SELECT tarif FROM tb_tarif WHERE kode_tarif = 'TR001' LIMIT 1");
     $stmt->execute();
