@@ -54,53 +54,6 @@ $error = $_GET['error'] ?? '';
     </div>
   </form>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const hasErrorFromPHP = <?php echo $error ? 'true' : 'false'; ?>;
-      if (hasErrorFromPHP) return; // Jangan jalankan auto-login jika ada error dari PHP
-
-      function generateUUID() {
-        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-        );
-      }
-
-      let deviceID = localStorage.getItem("device_id");
-      if (!deviceID) {
-        deviceID = generateUUID();
-        localStorage.setItem("device_id", deviceID);
-      }
-
-      document.getElementById("device_id").value = deviceID;
-
-      fetch("auto_login.php", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: "device_id=" + encodeURIComponent(deviceID)
-      })
-      .then(res => res.text())
-      .then(res => {
-        if (res === "login_ok") {
-          window.location.href = "index.php";
-        } else {
-          const footer = document.querySelector(".footer");
-          const existingError = document.querySelector(".error-message");
-
-          if (existingError) {
-            existingError.textContent = res;
-          } else {
-            const errorEl = document.createElement("div");
-            errorEl.className = "error-message";
-            errorEl.style.color = "red";
-            errorEl.style.fontSize = "12px";
-            errorEl.textContent = res;
-            footer.prepend(errorEl);
-          }
-
-          localStorage.removeItem("device_id");
-        }
-      });
-    });
-  </script>
+  <script src="js/auto-login.js"></script>
 </body>
 </html>

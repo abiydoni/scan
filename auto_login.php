@@ -7,13 +7,13 @@ ini_set('session.gc_divisor', 100);               // ...1 dari 100 request (defa
 
 session_set_cookie_params(31536000);              // Cookie disimpan di browser selama 1 tahun
 session_start();
-require 'api/db.php';
+require 'helper/connection.php';
 date_default_timezone_set('Asia/Jakarta');
 
 $device_id = $_POST['device_id'] ?? '';
 
 if (!$device_id) {
-    header("Location: login.php?error=" . urlencode("Device ID tidak ditemukan."));
+    echo "Device ID tidak ditemukan.";
     exit;
 }
 
@@ -30,7 +30,7 @@ try {
     $user = $stmt->fetch();
 
     if (!$user) {
-        header("Location: login.php?error=" . urlencode("Login gagal! Perangkat tidak dikenali."));
+        echo "Login gagal! Perangkat tidak dikenali.";
         exit;
     }
 
@@ -39,14 +39,24 @@ try {
     $currentDay = date('l');
 
     if ($role === 'warga') {
-        header("Location: login.php?error=" . urlencode("Login gagal! Role warga tidak diizinkan login otomatis."));
+        echo "Login gagal! Role warga tidak diizinkan login otomatis.";
         exit;
     }
 
+    // Admin dan s_admin bisa login kapan saja
+    if (in_array($role, ['admin', 's_admin'])) {
+        // Login berhasil → simpan session
+        $_SESSION['user'] = $user;
+        $_SESSION['device_id'] = $device_id;
+        echo 'login_ok';
+        exit;
+    }
+
+    // Untuk pengurus dan user, cek shift
     if (in_array($role, ['pengurus', 'user'])) {
         $shiftDays = explode(',', $shift);
         if (!in_array($currentDay, $shiftDays)) {
-            header("Location: login.php?error=" . urlencode("Login gagal! Hari ini bukan jadwalmu jaga."));
+            echo "Login gagal! Hari ini bukan jadwalmu jaga.";
             exit;
         }
     }
@@ -59,6 +69,6 @@ try {
     exit;
 
 } catch (PDOException $e) {
-    header("Location: login.php?error=" . urlencode("Database error: " . $e->getMessage()));
+    echo "Database error: " . $e->getMessage();
     exit;
 }

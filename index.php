@@ -1,8 +1,9 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Jakarta');
-require_once 'api/db.php';
+require_once 'helper/connection.php';
 
+$pdo = getDatabaseConnection();
 $showShiftAlert = false;
 
 if (isset($_SESSION['user'])) {
